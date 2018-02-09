@@ -3,6 +3,7 @@ package com.example.wkudsk.addressbook;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -34,6 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     LocationManager locationManager;
     LocationListener locationListener;
+    SharedPreferences sharedPreferences;
     private GoogleMap mMap;
 
     //Centers the map on location
@@ -82,7 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        sharedPreferences = this.getSharedPreferences("com.example.wkudsk.addressbook", Context.MODE_PRIVATE);
         mMap.setOnMapLongClickListener(this);
         Intent intent = getIntent();
         int i = intent.getIntExtra("index", 0);
@@ -119,7 +123,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
            else
            {
                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
                Location lastLocation  = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
                centerMap(lastLocation, "Your location");
 
@@ -168,14 +171,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(address == "")
         {
-            //SimpleDateFormat sdf = new SimpleDateFormat("mm:HH dd/MM/yyyy");
-            //address = sdf.format(new Date());
+            SimpleDateFormat sdf = new SimpleDateFormat("mm:HH dd/MM/yyyy");
+            address = sdf.format(new Date());
         }
 
         mMap.addMarker(new MarkerOptions().position(latLng).title(address));
-        MainActivity.addressBook.add(address);
-        MainActivity.locations.add(latLng);
+
+        ArrayList<String> addressBook = new ArrayList<String>();
+        ArrayList<LatLng> locations = new ArrayList<LatLng>();
+
+        try {
+
+            addressBook = (ArrayList<String>) ObjectSerializer.deserialize(sharedPreferences.getString("addressBook", ObjectSerializer.serialize(new ArrayList<String>())));
+            locations = (ArrayList<LatLng>) ObjectSerializer.deserialize(sharedPreferences.getString("locations", ObjectSerializer.serialize(new ArrayList<LatLng>())));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        addressBook.add(address);
+        locations.add(latLng);
         MainActivity.arrayAdapter.notifyDataSetChanged();
+
+        try {
+            sharedPreferences.edit().putString("addressBook", ObjectSerializer.serialize(addressBook)).apply();
+            sharedPreferences.edit().putString("locations", ObjectSerializer.serialize(locations)).apply();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Toast.makeText(this, "Location Saved", Toast.LENGTH_SHORT).show();
     }
 }
