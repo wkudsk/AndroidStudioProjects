@@ -37,7 +37,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     LocationManager locationManager;
     LocationListener locationListener;
-    SharedPreferences sharedPreferences;
     private GoogleMap mMap;
 
     //Centers the map on location
@@ -86,7 +85,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        sharedPreferences = this.getSharedPreferences("com.example.wkudsk.addressbook", Context.MODE_PRIVATE);
         mMap.setOnMapLongClickListener(this);
         Intent intent = getIntent();
         int i = intent.getIntExtra("index", 0);
@@ -177,29 +175,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions().position(latLng).title(address));
 
-        ArrayList<String> addressBook = new ArrayList<String>();
-        ArrayList<LatLng> locations = new ArrayList<LatLng>();
-
-        try {
-
-            addressBook = (ArrayList<String>) ObjectSerializer.deserialize(sharedPreferences.getString("addressBook", ObjectSerializer.serialize(new ArrayList<String>())));
-            locations = (ArrayList<LatLng>) ObjectSerializer.deserialize(sharedPreferences.getString("locations", ObjectSerializer.serialize(new ArrayList<LatLng>())));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
-        addressBook.add(address);
-        locations.add(latLng);
+        MainActivity.addressBook.add(address);
+        MainActivity.locations.add(latLng);
         MainActivity.arrayAdapter.notifyDataSetChanged();
 
+        SharedPreferences sharedPreferences = this.getSharedPreferences("com.example.wkudsk.addressbook", Context.MODE_PRIVATE);
+
         try {
-            sharedPreferences.edit().putString("addressBook", ObjectSerializer.serialize(addressBook)).apply();
-            sharedPreferences.edit().putString("locations", ObjectSerializer.serialize(locations)).apply();
+            ArrayList<String> latitudes = new ArrayList<String>();
+            ArrayList<String> longitude = new ArrayList<String>();
+            for(LatLng coordinate : MainActivity.locations)
+            {
+                latitudes.add(Double.toString(coordinate.latitude));
+                longitude.add(Double.toString(coordinate.longitude));
+            }
+
+            sharedPreferences.edit().putString("addresses", ObjectSerializer.serialize(MainActivity.addressBook)).apply();
+            sharedPreferences.edit().putString("latitudes", ObjectSerializer.serialize(latitudes)).apply();
+            sharedPreferences.edit().putString("longitudes", ObjectSerializer.serialize(longitude)).apply();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         Toast.makeText(this, "Location Saved", Toast.LENGTH_SHORT).show();
     }
 }

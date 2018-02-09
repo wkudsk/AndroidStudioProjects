@@ -1,6 +1,8 @@
 package com.example.wkudsk.addressbook;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.widget.ListView;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -32,11 +35,40 @@ public class MainActivity extends AppCompatActivity {
 
         //Starting up listview
         ListView listView = (ListView) findViewById(R.id.listView);
+
+        SharedPreferences sharedPreferences =  this.getSharedPreferences("com.example.wkudsk.addressbook", Context.MODE_PRIVATE);
         addressBook = new ArrayList<String>();
         locations = new ArrayList<LatLng>();
-        addressBook.add("Add to your address book...");
-        LatLng openLatLng = new LatLng(40.12343, 40.12134);
-        locations.add(openLatLng);
+        ArrayList<String> latitudes = new ArrayList<String>();
+        ArrayList<String> longitudes = new ArrayList<String>();
+
+        try {
+            addressBook = (ArrayList<String>) ObjectSerializer.deserialize(sharedPreferences.getString("addresses", ObjectSerializer.serialize(new ArrayList<String>())));
+            latitudes = (ArrayList<String>) ObjectSerializer.deserialize(sharedPreferences.getString("latitudes", ObjectSerializer.serialize(new ArrayList<String>())));
+            longitudes = (ArrayList<String>) ObjectSerializer.deserialize(sharedPreferences.getString("longitudes", ObjectSerializer.serialize(new ArrayList<String>())));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(addressBook.size() > 0 && latitudes.size() > 0 && longitudes.size() > 0)
+        {
+            if(addressBook.size() == latitudes.size() && latitudes.size() == longitudes.size())
+            {
+                for(int i = 0; i < addressBook.size(); i++)
+                {
+                    locations.add(new LatLng(Double.parseDouble(latitudes.get(i)), Double.parseDouble(longitudes.get(i))));
+                }
+            }
+        }
+        else
+        {
+            addressBook.add("Add to your address book...");
+            LatLng openLatLng = new LatLng(40.12343, 40.12134);
+            locations.add(openLatLng);
+        }
+
+
 
 
 
