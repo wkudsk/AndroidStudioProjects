@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Main4Activity">
 
     <EditText
         android:id="@+id/flourInput"
@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/edittext_bg"
         android:ems="10"
         android:hint="How Much Flour In Grams?"
@@ -24,7 +24,8 @@
         app:layout_constraintBottom_toTopOf="@+id/salt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <TextView
         android:id="@+id/salt"
@@ -32,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="Insert Hydration Percentage"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -46,7 +47,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="5dp"
         android:progressTint="#F6880A"
@@ -78,8 +79,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
-        android:text="Insert Starter Percentage"
+        android:layout_marginTop="8dp"
+        android:text="Insert Yeast Percentage"
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/yeastBar"
@@ -93,7 +94,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="5dp"
         android:progressTint="#F6880A"
@@ -125,7 +126,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="Insert Salt Percentage"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -139,7 +140,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="5dp"
         android:progressTint="#F6880A"
@@ -147,7 +148,8 @@
         app:layout_constraintBottom_toTopOf="@+id/SaltPercent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Salt" />
+        app:layout_constraintTop_toBottomOf="@+id/Salt"
+        app:layout_constraintVertical_chainStyle="packed" />
 
 
     <TextView
@@ -161,10 +163,103 @@
         android:layout_marginBottom="16dp"
         android:text="0%"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/secondActivity"
+        app:layout_constraintBottom_toTopOf="@+id/milk"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SaltBar" />
+
+    <TextView
+        android:id="@+id/milk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Insert Milk Percentage"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/milkBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SaltPercent" />
+
+    <SeekBar
+        android:id="@+id/milkBar"
+        style="@style/Widget.AppCompat.SeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="5dp"
+        android:progressTint="#F6880A"
+        android:thumbTint="#F6880A"
+        app:layout_constraintBottom_toTopOf="@+id/milkPercent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/milk" />
+
+    <TextView
+        android:id="@+id/milkPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="0%"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/secondActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/milkBar" />
+
+    <TextView
+        android:id="@+id/eggs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Insert Eggs"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/eggBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/milkPercent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+    <SeekBar
+        android:id="@+id/eggBar"
+        style="@style/Widget.AppCompat.SeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="5dp"
+        android:progressTint="#F6880A"
+        android:thumbTint="#F6880A"
+        app:layout_constraintBottom_toTopOf="@+id/eggPercent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eggs" />
+
+    <TextView
+        android:id="@+id/eggPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="0%"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/secondActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eggBar" />
 
     <Button
         android:id="@+id/secondActivity"
@@ -172,10 +267,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="8dp"
         android:background="#F6880A"
         android:onClick="jumpToResult"
         android:text="Calculate"
@@ -183,8 +277,7 @@
         app:layout_constraintBottom_toTopOf="@+id/thirdActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SaltPercent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/thirdActivity"
@@ -192,7 +285,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="#F6880A"
@@ -200,9 +293,7 @@
         android:text="Go To Preset Page"
         android:textColor="@android:color/background_dark"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/secondActivity" />
-
 
 </android.support.constraint.ConstraintLayout>
